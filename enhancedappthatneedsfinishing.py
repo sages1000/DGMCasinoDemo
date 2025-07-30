@@ -891,16 +891,17 @@ with tab1:
             
             with col1:
                 st.markdown("""
-                    <div class="game-card">
-                        <h3>📊 Basic Info</h3>
-                        <p><strong>Player ID:</strong> {player_id}</p>
-                        <p><strong>Name:</strong> {name}</p>
-                        <p><strong>Tier:</strong> {tier}</p>
-                        <p><strong>Main Balance:</strong> €{balance:.2f}</p>
-                        <p><strong>Bonus Balance:</strong> €{bonus_balance:.2f}</p>
-                        <p><strong>Loyalty Points:</strong> {loyalty_points:,}</p>
-                    </div>
-                """.format(**stats), unsafe_allow_html=True)
+                <div class="game-card">
+                    <h3>📊 Basic Info</h3>
+                    <p><strong>Player ID:</strong> {player_id}</p>
+                    <p><strong>Name:</strong> {stats['name']}</p>
+                    <p><strong>Tier:</strong> {stats['tier']}</p>
+                    <p><strong>Main Balance:</strong> €{stats['balance']:.2f}</p>
+                    <p><strong>Bonus Balance:</strong> €{casino.players[player_id].bonus_balance:.2f}</p>
+                    <p><strong>Loyalty Points:</strong> {stats['loyalty_points']:,}</p>
+                </div>
+                """.format(player_id=player_id, **stats), unsafe_allow_html=True)
+            
             with col2:
                 st.markdown("""
                 <div class="game-card">
@@ -1232,7 +1233,7 @@ with tab1:
         with col1:
             quick_bet_amount = st.number_input("Bet Amount (€)", min_value=1.0, max_value=100.0, value=10.0, step=1.0, key="quick_bet")
             
-            if st.button("🎰 Place Bet", key="quick_bet_button"):
+            if st.button("🎰 Place Bet", key="quick_bet"):
                 if total_balance >= quick_bet_amount:
                     result = casino.place_bet(player_id, quick_bet_amount)
                     if result["success"]:
@@ -1266,10 +1267,10 @@ with tab1:
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            multi_bet_amount = st.number_input("Bet Amount (€)", min_value=1.0, max_value=50.0, value=5.0, step=1.0, key="multi_bet_but")
+            multi_bet_amount = st.number_input("Bet Amount (€)", min_value=1.0, max_value=50.0, value=5.0, step=1.0, key="multi_bet")
         
         with col2:
-            num_bets = st.number_input("Number of Bets", min_value=1, max_value=20, value=5, step=1, key = "quickfix")
+            num_bets = st.number_input("Number of Bets", min_value=1, max_value=20, value=5, step=1)
         
         with col3:
             if st.button("🎰 Place Multiple Bets", key="multi_bet_button"):
